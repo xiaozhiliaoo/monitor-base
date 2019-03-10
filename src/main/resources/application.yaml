@@ -1,0 +1,15 @@
+server:
+  port: 8080
+management:
+  metrics:
+    tags:
+      application: monitor1App
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: env, health, info, metrics, prometheus, threaddump
+        exclude:

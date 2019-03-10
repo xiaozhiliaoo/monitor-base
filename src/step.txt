@@ -1,0 +1,42 @@
+springboot2+node_exporter+mysql_exporter+prometheus+grafana搭建监控体系
+
+step1 springboot2程序
+
+核心maven文件：
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-prometheus</artifactId>
+</dependency>
+
+
+step2 node_exporter安装
+
+在https://github.com/prometheus/node_exporter/releases找到最新的压缩包，然后wget，解压tar -zxvf到本地。
+执行：./mysqld_exporter
+
+资料：https://prometheus.io/docs/guides/node-exporter/
+
+step3 mysql_exporter安装
+
+在https://github.com/prometheus/mysqld_exporter找到最新的压缩包，然后wget，解压tar -zxvf到本地。
+先确保有my.cnf文件，执行：./mysqld_exporter
+
+step4 prometheus安装和配置
+下载最新版的prometheus安装和配置：wget https://github.com/prometheus/prometheus/releases/download/v2.8.0-rc.0/prometheus-2.8.0-rc.0.darwin-amd64.tar.gz
+解压到本地：
+先配置prometheus.yml文件，需要定义一系列job和targets以连接到step1-3中的组件。
+prometheus.yml 参考：
+./prometheus --config.file=prometheus.yml
+
+
+step5 grafana安装
+
+wget https://dl.grafana.com/oss/release/grafana-6.0.1.darwin-amd64.tar.gz，
+tar -zxvf grafana-6.0.1.darwin-amd64.tar.gz
+./bin/grafana-server web
+
+step6 自定义panel:jvm,mysql,cpu相关指数
